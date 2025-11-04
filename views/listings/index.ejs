@@ -1,0 +1,175 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    opacity: 0.6;
+  }
+
+  .filter p {
+    font-size: 0.8rem;
+  }
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .tax-info {
+    display: none;
+    color: #28a745;
+  }
+
+ 
+.tax-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 50px;
+  margin-left: 3.75rem;
+  padding: 10px 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+  width: fit-content;
+  gap: 18px; 
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* toggle design */
+.form-switch .form-check-input {
+  width: 42px;
+  height: 22px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 25px;
+  position: relative;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.form-switch .form-check-input::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* toggle ON */
+.form-switch .form-check-input:checked {
+  background-color: #0d6efd;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translateX(20px);
+}
+
+/* hover effect */
+.form-switch .form-check-input:hover {
+  box-shadow: 0 0 6px rgba(13,110,253,0.6);
+}
+
+/* label styling */
+.form-switch .form-check-label {
+  cursor: pointer;
+}
+
+</style>
+
+
+   
+<div id="filters">
+  <div class="filter">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Room</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-mountain-city"></i></div>
+    <p>Iconic Cities</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid  fa-mountain"></i></div>
+    <p>Mountains</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-brands fa-fort-awesome"></i></div>
+    <p>Castles</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    <p>Amazing Pools</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid  fa-campground"></i></div>
+    <p>Camping</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-cow"></i></div>
+    <p>Farms</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-regular fa-snowflake"></i></div>
+    <p>Arctic</p>
+  </div>
+
+  <div class="tax-toggle">
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Display total after taxes &nbsp; &nbsp;</label>
+      </div>
+  </div>
+</div>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+<% for(let listing of allListings) { %>
+  <a href="/listings/<%= listing._id %>" class="listing-link">
+<div class="card col listing-card" >
+  <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+  <div class="card-img-overlay"></div>
+  <div class="card-body">
+    <p class="card-text">
+      <b><%= listing.title %> <br></b>
+      &#8377; <%= listing.price.toLocaleString("en-IN") %> / night 
+      <i class="tax-info"> &nbsp; &nbsp; <b>+18% GST</b> </i>
+    </p>
+  </div>
+</div>
+</a>
+  <%  }  %>
+</div>
+
+<script>
+  let taxSwitch = document.getElementById("switchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (info of taxInfo) {
+      if(info.style.display != "inline"){
+         info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+     
+    }
+  });
+</script>
